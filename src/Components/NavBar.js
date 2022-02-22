@@ -14,7 +14,6 @@ const NavBarStyled = styled.header`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 15px;
   color: white;
 `;
 
@@ -32,9 +31,11 @@ const ImgLogo = styled.img`
  align-item: center;
 `;
 
-
-
-const SignStyled = styled.div`
+const SignStyled = styled.button`
+  background-color: transparent;
+  border-color: transparent;
+  color: white;
+  font-size: 16px;
   text-align: center;
   display: block;
   margin-right: 3%;
