@@ -45,4 +45,8 @@ export const GlobalStyle = createGlobalStyle`
   input, button {
     font-family: inherit;
   }
+  p {
+    margin: 0;
+    padding: 0;
+  }
 `;

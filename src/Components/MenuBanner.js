@@ -1,16 +1,14 @@
 import React from "react";
 import styled from "styled-components";
+import bannerImg from '../images/banner.png';
 
-const Frame = styled.div`
+export const  MenuBanner = styled.div`
   width: 100%;
-  background-image: url(${'./images/banner.png'});
-  height: 275px;
+  background-image: url(${bannerImg});
+  height: 200px;
   background-position: center;  	
   background-repeat: no-repeat;
   background-color: #E5E5E5;
+  background-size: cover;
 `;
 
-export const MenuBanner = ()=>(
-  <Frame>
-  </Frame>
-);
