@@ -1,5 +1,5 @@
-import React from "react";
 import styled from "styled-components";
+import { ButtonCheckout } from "../Styles/ButtonCheckout";
 
 const Overlay = styled.div`
   position: fixed;
@@ -30,49 +30,53 @@ const Banner = styled.div`
   margin-bottom: 20px;
 `;
 
-const BtnAdd = styled.button`
-  position: absolute;
-  width: 250px;
-  height: 65px;
-  background-color: #299B01;
-  border: none;
-  font-family: Roboto;
-  font-size: 21px;
-  text-align: center;
-  color: white;
-  left: 50%;
-  transform: translate(-50%, 0);
-  z-index: 1001;
-  bottom: 43px;
-`;
-
 const DescriptionItem =  styled.div`
   display: flex;
   justify-content: space-between;
-  font-family: Pacifico;
+  font-family: Pacifico, cursive;
   font-size: 30px;
-  padding-left: 37px;
-  padding-right: 37px;
+  font-weight: 700;
 `;
 
-export const ModalItem = ({openItem, setOpenItem}) => {
-  function closeModal(e) {
+const Content = styled.section`
+  padding-left: 37px;
+  padding-right: 37px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 300px;
+  padding: 30px;
+`;
+
+export const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
+
+  const closeModal=(e)=> {
     if (e.target.id === "overlay") {
       setOpenItem(null);
     } 
-  }  
-  if (!openItem) return null;
+  }; 
+
+  const addToOrder=(e)=>{
+     setOrders([...orders, openItem]);
+     setOpenItem(null);
+  };
+
+
   const {name, price, img} = openItem;
+
+
   return (
   <Overlay id="overlay" onClick={closeModal}>    
     <Modal>
       <Banner img = {img}/>
+      <Content>     
         <DescriptionItem>
-          <p>{name}</p>
-          <p>{price.toLocaleString('ru-RU', {style: 'currency',currency: 'RUB'})}</p>
+          <div>{name}</div>
+          <div>{price.toLocaleString('ru-RU', {style: 'currency',currency: 'RUB'})}</div>
         </DescriptionItem>      
-        <BtnAdd>Добавить</BtnAdd>    
-        </Modal>
+        <ButtonCheckout onClick={addToOrder}>Добавить</ButtonCheckout>
+      </Content>  
+    </Modal>
   </Overlay>
   )
 };
