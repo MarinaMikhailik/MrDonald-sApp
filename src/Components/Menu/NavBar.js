@@ -1,7 +1,6 @@
-import React from "react";
 import styled from "styled-components";
-import logo from '../images/logo.svg';
-import sign from '../images/sign.svg';
+import logo from '../../images/logo.svg';
+import sign from '../../images/sign.svg';
 
 const NavBarStyled = styled.header`
   background-color: #299B01;
@@ -9,7 +8,7 @@ const NavBarStyled = styled.header`
   top: 0;
   left: 0;
   z-index: 999;
-  width: 100vw;
+  width: 100%;
   height: 80px;
   display: flex;
   justify-content: space-between;

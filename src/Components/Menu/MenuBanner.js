@@ -1,6 +1,5 @@
-import React from "react";
 import styled from "styled-components";
-import bannerImg from '../images/banner.png';
+import bannerImg from '../../images/banner.png';
 
 export const  MenuBanner = styled.div`
   width: 100%;
@@ -10,5 +9,6 @@ export const  MenuBanner = styled.div`
   background-repeat: no-repeat;
   background-color: #E5E5E5;
   background-size: cover;
+  margin-left: 380px;
 `;
 

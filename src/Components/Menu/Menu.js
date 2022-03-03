@@ -1,14 +1,14 @@
 import React from "react";
 import styled from "styled-components";
 import dbMenu from "./DBMenu";
-import {ListItem} from "./ListItem";
+import {ListItem} from "../Order/ListItem";
 
 const MenuStyled = styled.main`
   background: #E5E5E5;
+  margin-left: 420px;
 `;
 
 const Section = styled.section`
-  padding-left: 30px;
 `;
 
 export const Menu = ({setOpenItem}) => (
