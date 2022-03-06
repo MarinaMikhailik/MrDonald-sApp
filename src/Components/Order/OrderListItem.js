@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import trashImg from "../../images/trash.svg";
+import { formatCurrency } from "../utils/utils";
 
 const TrashBtn = styled.div`
   width: 24px;
@@ -30,11 +31,11 @@ const ItemPrice = styled.span`
   
 `;
 
-export const OrderListItem = ({name, price}) => (
-   <OrderItem>
+export const OrderListItem = ({name, price, id, count}) => {
+  return ( <OrderItem>
      <ItemName>{name}</ItemName>
-     <span>1</span>
-     <ItemPrice>{price.toLocaleString('ru-RU', {style: 'currency',currency: 'RUB'})}</ItemPrice>
+     <span>{count}</span>
+     <ItemPrice>{formatCurrency(price)}</ItemPrice>
      <TrashBtn></TrashBtn>
-   </OrderItem>
-);
+   </OrderItem>);
+};
