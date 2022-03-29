@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import trashImg from "../../images/trash.svg";
 import { formatCurrency } from "../utils/utils";
+import { useRef } from "react";
 
 const TrashBtn = styled.div`
   width: 24px;
@@ -15,8 +16,12 @@ const TrashBtn = styled.div`
 `;
 
 const OrderItem = styled.div`
-   display: flex;
    margin: 15px 15px;
+`;
+
+const MainInfo= styled.div`
+   display: flex;
+   cursor: pointer;
 `;
 
 const ItemName = styled.span`
@@ -31,11 +36,34 @@ const ItemPrice = styled.span`
   
 `;
 
-export const OrderListItem = ({name, price, id, count}) => {
-  return ( <OrderItem>
-     <ItemName>{name}</ItemName>
-     <span>{count}</span>
-     <ItemPrice>{formatCurrency(price)}</ItemPrice>
-     <TrashBtn></TrashBtn>
-   </OrderItem>);
+const Additional = styled.div`
+  color: #9A9A9A;  
+  font-size: 14px;
+`;
+
+export const OrderListItem = ({order, deleteFromOrder, index, setOpenItem}) => {
+  
+
+  console.log('order', order);
+  const {name, price,  count, chooseToppings, chooseChoice} = order;
+
+  const checkedAdd = chooseToppings.filter(item=>item.checked)
+  .map(item=>item.name)
+  .join(', ')
+  .toLowerCase();
+
+  const refDeleteButton = useRef(null);
+
+  return (<OrderItem>
+    <MainInfo onClick={(e)=> e.target !== refDeleteButton.current && setOpenItem({...order, index})}>
+      <ItemName>{name} {chooseChoice}</ItemName>
+      <span>{count}</span>
+      <ItemPrice>{formatCurrency(price)}</ItemPrice>
+      <TrashBtn  ref={refDeleteButton}
+      onClick = {(event) => {
+       deleteFromOrder(index)}}/> 
+     </MainInfo>
+     {chooseToppings && <Additional>{checkedAdd}</Additional>}  
+   </OrderItem>
+ );
 };

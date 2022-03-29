@@ -24,12 +24,12 @@ export const GlobalStyle = createGlobalStyle`
     max-width: 100%;
     height: auto;
   }
-  h1, h3 {
+  h1 {
     font-family: 'Pacifico', cursive;
     font-size: 24px;
     color: #FFFFFF;
   }
-  h2 {
+  h2, h3 {
     font-family: 'Pacifico', cursive;
     font-size: 24px;
     margin: 0;

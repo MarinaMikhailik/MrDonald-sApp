@@ -46,18 +46,40 @@ const SignImg = styled.img`
 const SignText = styled.div`
 `;
 
-function signHandle(){
-  alert("Here will be handle for action Sign!")
-}
-export const NavBar = () => (
+const User = styled.div`
+  display: flex;
+  align-items: center;
+  text-align: center;
+`;
+
+const LogOut = styled.span`
+  font-size: 20px;
+  font-weight: 70px;
+  cursor: pointer;
+  margin-right: 30px;
+`;
+
+const Figure = styled.figure`
+  margin: 0 30px;
+`
+
+export const NavBar = ({authentication, logIn, logOut}) => (
   <NavBarStyled>
     <LogoStyled>
       <ImgLogo src={logo} alt="logo"/>
       <H1>Mr Donald's</H1>
     </LogoStyled>
-    <SignStyled onClick={signHandle}>
-      <SignImg src={sign} alt="Sign"/>
-      <SignText>Войти</SignText>
-    </SignStyled>
+   {authentication ?
+      <User>
+        <Figure>
+          <img src={sign} alt={authentication.displayName}/>
+          <figcaption>{authentication.displayName}</figcaption>
+        </Figure>
+        <LogOut title="Выйти" onClick={logOut} >X</LogOut>
+      </User> :
+      <SignStyled onClick={logIn}>
+        <SignImg src={sign} alt="Sign"/>
+        <SignText>Войти</SignText>
+      </SignStyled> } 
   </NavBarStyled>
 );
