@@ -43,8 +43,6 @@ const Additional = styled.div`
 
 export const OrderListItem = ({order, deleteFromOrder, index, setOpenItem}) => {
   
-
-  console.log('order', order);
   const {name, price,  count, chooseToppings, chooseChoice} = order;
 
   const checkedAdd = chooseToppings.filter(item=>item.checked)

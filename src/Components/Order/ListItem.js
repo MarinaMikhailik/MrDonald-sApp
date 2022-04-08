@@ -39,7 +39,9 @@ const ItemStyled = styled.li`
 
 `;
 
-export const ListItem = ({itemList, setOpenItem}) => (
+export const ListItem = ({itemList, setOpenItem}) => {
+ console.log(itemList);
+  return (
   <List>
     {itemList.map(item=>(
       <ItemStyled 
@@ -53,3 +55,4 @@ export const ListItem = ({itemList, setOpenItem}) => (
     ))}
   </List>
 )
+} ;

@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { ButtonCheckout } from "../Styles/ButtonCheckout";
 import { OrderListItem } from "./OrderListItem";
-import { totalPrice, formatCurrency } from "../utils/utils";
+import { totalPrice, formatCurrency, projection } from "../utils/utils";
+
 
 const OrderStyled = styled.section`
   position: fixed;
@@ -48,21 +49,38 @@ const EmptyList = styled.p`
 `;
 
 
-
-export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn }) => {
-
-const deleteFromOrder =  (index) => {
-   const newOrders = [...orders];
-   newOrders.splice(index, 1)
-   setOrders(newOrders);
+const rulesData = {
+  name: ['name'],
+  price: ['price'],
+  count: ['count'],
+  chooseChoice: ['chooseChoice', item => item ? item: 'no choices' ],
+  chooseToppings: ['chooseToppings', arr => arr.filter(item => item.checked).map(item => item.name), arr => arr.length ? arr : 'no toppings']
 }
 
-const checkOut = () => {
-  if (!authentication) {
-    logIn();
-  };
-  console.log("Login is sucessfull! Set order!");
-} 
+export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, database }) => {
+  const sendOrder =()=>{
+    const newOrders = orders.map(projection(rulesData));
+    database.ref('orders').push().set({
+      nameClient: authentication.displayName,
+      email: authentication.email,
+      order: newOrders
+    });
+    setOrders([]);
+  }
+
+  const deleteFromOrder =  (index) => {
+    const newOrders = [...orders];
+    newOrders.splice(index, 1)
+    setOrders(newOrders);
+  }
+
+  const checkOut = () => {
+    if (!authentication) {
+      logIn();
+    } else {
+      sendOrder();
+    };
+  } 
 
   const total = orders.reduce((sum, order)=>(sum +  totalPrice(order)),0);
 
