@@ -96,7 +96,6 @@ export const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
      setOpenItem(null);
   };
 
-console.log('Before return');
   return (
   <Overlay id="overlay" onClick={closeModal}>    
     <Modal>
