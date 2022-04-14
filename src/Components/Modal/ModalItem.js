@@ -8,9 +8,11 @@ import { Toppings } from "./Toppings";
 import { useToppings } from "../Hooks/useToppings";
 import { useChoices } from "../Hooks/useChoices";
 import { Choices } from "./Choices";
+import { Context, ContextModalItem } from "../utils/context";
+import { useContext } from "react";
+import React from 'react';
 
-
-const Overlay = styled.div`
+export const Overlay = styled.div`
   position: fixed;
   display: flex;
   justify-content: center;
@@ -62,9 +64,9 @@ const TotalPriceItem = styled.div`
   justify-content: space-between;
 `;
 
-
-
-export const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
+export const ModalItem = () => {
+  const {openItem: {openItem, setOpenItem},
+    orders: {orders, setOrders}} = useContext(Context);
   const {name, price, img} = openItem;
   const counter = useCount(openItem);
   const topp = useToppings(openItem);
@@ -104,19 +106,24 @@ export const ModalItem = ({openItem, setOpenItem, orders, setOrders}) => {
         <DescriptionItem>
           <div>{name}</div>
           <div>{formatCurrency(price)}</div>
-        </DescriptionItem>          
-        <CountItem {...counter}/>  
-        {openItem.toppings && (<Toppings {...topp}/>)} 
-        {openItem.choices && <Choices {...choices} openItem={openItem}/>}
+        </DescriptionItem>  
+        <ContextModalItem.Provider value={{
+          counter,
+          topp,
+          choices
+        }}>             
+        <CountItem/>  
+        {openItem.toppings && (<Toppings/>)} 
+        {openItem.choices && <Choices openItem={openItem}/>}
         <TotalPriceItem>
           <span>Итого:</span>
           <span>{formatCurrency(totalPrice(orderCur))}</span>
         </TotalPriceItem> 
         <ButtonCheckout onClick={isEdit ? editOrder : addToOrder}
         disabled={openItem.choices && !orderCur.chooseChoice}>{isEdit ? "Редактировать" : "Добавить"}</ButtonCheckout>
+         </ContextModalItem.Provider>  
       </Content>  
     </Modal>
   </Overlay>
   )
-  // 
 };

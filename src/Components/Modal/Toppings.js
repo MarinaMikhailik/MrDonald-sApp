@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import react from "react";
+import { useContext } from "react";
+import { ContextModalItem } from "../utils/context";
 
 const ToppingWrap = styled.div`
   column-count: 2;
@@ -18,7 +19,8 @@ const ToppingCheckbox = styled.input`
   margin-right: 5px;
 `;
 
-export function Toppings({ toppings, checkToppings}){
+export function Toppings(){
+  const {topp: {toppings, checkToppings}} = useContext(ContextModalItem);
   return (
     <><h3>Добавки:</h3>
     <ToppingWrap>

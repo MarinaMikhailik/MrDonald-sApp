@@ -3,6 +3,8 @@ import styled from "styled-components";
 //import dbMenu from "../DBMenu";
 import { ListItem } from "../Order/ListItem";
 import { Loader } from "../Loader";
+import { Context } from "../utils/context";
+import { useContext } from "react";
 
 const MenuStyled = styled.main`
   background: #E5E5E5;
@@ -12,9 +14,11 @@ const MenuStyled = styled.main`
 const Section = styled.section`
 `;
 
-export const Menu = ({setOpenItem, dbMenu, dbMenuError}) => { 
+export const Menu = ( { dbMenu, dbMenuError }) => { 
  //  const resR = useFetch();
  // const dbMenuR= resR.response;
+
+  //const {openItem: {setOpenItem}} = useContext(Context);
 
   return (
   <MenuStyled>
@@ -23,15 +27,12 @@ export const Menu = ({setOpenItem, dbMenu, dbMenuError}) => {
         <Section>
           <h2>Бургеры</h2>
           <ListItem 
-            itemList = {dbMenu.burger}
-            setOpenItem = {setOpenItem}
-          />
+            itemList = {dbMenu.burger} />
         </Section>
         <Section>
           <h2>Закуски / Напитки</h2>
           <ListItem 
-            itemList={dbMenu.other}
-            setOpenItem = {setOpenItem}/>
+            itemList={dbMenu.other} />
         </Section> 
       </>:
         dbMenuError ? 
