@@ -1,5 +1,8 @@
 import styled from "styled-components";
 import { formatCurrency } from "../utils/utils";
+import { Context } from "../utils/context";
+import { useContext } from "react";
+
 const List = styled.ul`
   display: flex;
   justify-content: space-around;
@@ -39,8 +42,8 @@ const ItemStyled = styled.li`
 
 `;
 
-export const ListItem = ({itemList, setOpenItem}) => {
- console.log(itemList);
+export const ListItem = ({itemList}) => {
+  const {openItem: {setOpenItem}} = useContext(Context);
   return (
   <List>
     {itemList.map(item=>(

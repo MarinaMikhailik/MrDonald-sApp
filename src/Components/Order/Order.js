@@ -2,6 +2,9 @@ import styled from "styled-components";
 import { ButtonCheckout } from "../Styles/ButtonCheckout";
 import { OrderListItem } from "./OrderListItem";
 import { totalPrice, formatCurrency, projection } from "../utils/utils";
+import { Context } from "../utils/context";
+import { useContext } from "react";
+import { OrderTitle, OrderTotal, TotalPrice } from "../Styles/OrderStyled";
 
 
 const OrderStyled = styled.section`
@@ -17,13 +20,6 @@ const OrderStyled = styled.section`
   padding: 20px;
 `;
 
-const OrderTitle = styled.h2`
-  text-align: center;
-  font-style: normal;
-  font-weight: normal;
-  margin-bottom: 30px;
-`;
-
 const OrderContent = styled.div`
   flex-grow: 1;
 `;
@@ -31,42 +27,17 @@ const OrderContent = styled.div`
 const OrderList = styled.ul`
 `;
 
-const OrderTotal = styled.div`
-  display: flex;
-  margin: 0 35px 35px 30px;
-  & span:first-child {
-    flex-grow: 1;
-  }`;
-
-const TotalPrice = styled.span`
-  text-align: right;
-  min-width: 65px;
-  margin-left: 20px;
-`;  
 
 const EmptyList = styled.p`
   text-align: center;
 `;
 
 
-const rulesData = {
-  name: ['name'],
-  price: ['price'],
-  count: ['count'],
-  chooseChoice: ['chooseChoice', item => item ? item: 'no choices' ],
-  chooseToppings: ['chooseToppings', arr => arr.filter(item => item.checked).map(item => item.name), arr => arr.length ? arr : 'no toppings']
-}
-
-export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, database }) => {
-  const sendOrder =()=>{
-    const newOrders = orders.map(projection(rulesData));
-    database.ref('orders').push().set({
-      nameClient: authentication.displayName,
-      email: authentication.email,
-      order: newOrders
-    });
-    setOrders([]);
-  }
+export const Order = () => {
+  const {auth: {authentication, logIn}, openItem: {setOpenItem},
+  orders: {orders,
+  setOrders},
+  orderConfirm: {setOpenOrderConfirm}} = useContext(Context);
 
   const deleteFromOrder =  (index) => {
     const newOrders = [...orders];
@@ -78,17 +49,14 @@ export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, d
     if (!authentication) {
       logIn();
     } else {
-      sendOrder();
+      setOpenOrderConfirm(true);
     };
   } 
-
   const total = orders.reduce((sum, order)=>(sum +  totalPrice(order)),0);
-
   const totalCounter = orders.reduce((totalC, {count}) => totalC + count, 0);
 
-
  return (
-<OrderStyled>
+  <OrderStyled>
    <OrderTitle>ВАШ ЗАКАЗ</OrderTitle>
    <OrderContent>
        {orders.length ?
@@ -99,13 +67,15 @@ export const Order = ({ orders, setOrders, setOpenItem, authentication, logIn, d
           index={index}
           setOpenItem = {setOpenItem}/>)}</OrderList>
    : <EmptyList>Список закозов пуст</EmptyList> } 
-    </OrderContent>     
-   <OrderTotal>
+    </OrderContent>    
+    { orders.length ? <OrderTotal>
      <span>ИТОГО:</span>
      <span>{totalCounter}</span>
      <TotalPrice>{formatCurrency(total)}</TotalPrice>
-   </OrderTotal>
-   <ButtonCheckout onClick={checkOut}>Оформить</ButtonCheckout>
+   </OrderTotal>: null     
+    }
+    {orders.length ? <ButtonCheckout onClick={checkOut}>Оформить</ButtonCheckout>: null  
+    }   
  </OrderStyled>
   );
 };

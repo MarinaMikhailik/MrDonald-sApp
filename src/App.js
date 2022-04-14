@@ -14,6 +14,9 @@ import 'firebase/compat/database';
 import { useEffect } from "react";
 import { useTitle } from "./Components/Hooks/useTitle";
 import { useDB } from "./Components/Hooks/useDB.js";
+import { useOrderConfirm } from "./Components/Hooks/useOrderConfirm";
+import { OrderConfirm } from "./Components/Order/OrderConfirm";
+import { Context } from "./Components/utils/context"; 
 
 const firebaseConfig = {
   apiKey: "AIzaSyDpAs2KKNRanXtRxQf_ziufYsYOaDjAZQM",
@@ -27,27 +30,32 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-
-
 function App() {
   const auth = useAuth(firebase.auth);
   const database = firebase.database();
   const { db, error}  = useDB(database);
   const openItem = useOpenItem();  
   const orders = useOrder();
+  const orderConfirm = useOrderConfirm();
   useTitle(openItem.openItem);  
 
   return (
-    <>
+    <Context.Provider value = {{
+      auth,
+      openItem,
+      orders,
+      orderConfirm
+    }}>
     <GlobalStyle/>
-    <NavBar {...auth}/>
-    <Order {...orders} {...openItem} {...auth}
-    database={database}/>
+    <NavBar/>
+    <Order/>
     <MenuBanner/>    
-    <Menu {...openItem} {...orders}
+    <Menu 
      dbMenu = {db} dbMenuError = {error}/>
-    {openItem.openItem && <ModalItem {...openItem} {...orders}/>}
-    </>
+    {openItem.openItem && <ModalItem/>}
+    {orderConfirm.openOrderConfirm && <OrderConfirm 
+      database={database}/>}
+    </Context.Provider>
   );
 }
 

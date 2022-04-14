@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import logo from '../../images/logo.svg';
 import sign from '../../images/sign.svg';
+import { Context } from "../utils/context";
+import { useContext } from "react";
 
 const NavBarStyled = styled.header`
   background-color: #299B01;
@@ -63,7 +65,11 @@ const Figure = styled.figure`
   margin: 0 30px;
 `
 
-export const NavBar = ({authentication, logIn, logOut}) => (
+export const NavBar = ( ) => {
+
+  const {auth: {authentication, logIn, logOut}} = useContext(Context);
+
+  return (
   <NavBarStyled>
     <LogoStyled>
       <ImgLogo src={logo} alt="logo"/>
@@ -82,4 +88,5 @@ export const NavBar = ({authentication, logIn, logOut}) => (
         <SignText>Войти</SignText>
       </SignStyled> } 
   </NavBarStyled>
-);
+)
+};
